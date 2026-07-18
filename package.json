@@ -1,0 +1,33 @@
+{
+  "name": "bookstore-manager-cli",
+  "version": "1.0.0",
+  "description": "Aplicação CLI para gerenciamento de uma livraria — autores, livros, clientes e empréstimos — com Node.js, TypeScript e PostgreSQL, estruturada em arquitetura em camadas.",
+  "homepage": "https://github.com/jorge-lherrera/SCTEC-FINAL-PROJECT-MODULE-1#readme",
+  "bugs": {
+    "url": "https://github.com/jorge-lherrera/SCTEC-FINAL-PROJECT-MODULE-1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorge-lherrera/SCTEC-FINAL-PROJECT-MODULE-1.git"
+  },
+  "license": "ISC",
+  "author": "Jorge Herrera",
+  "type": "commonjs",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "ts-node src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/pg": "^8.20.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
+}
