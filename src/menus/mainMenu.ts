@@ -3,11 +3,13 @@ import { AuthorController } from "../controllers/AuthorController";
 import { BookController } from "../controllers/BookController";
 import { CustomerController } from "../controllers/CustomerController";
 import { LoanController } from "../controllers/LoanController";
+import { ReportController } from "../controllers/ReportController";
 
 const authorController = new AuthorController();
 const bookController = new BookController();
 const customerController = new CustomerController();
 const loanController = new LoanController();
+const reportController = new ReportController();
 
 function showMainMenu(): void {
   console.log("\n===== BOOKSTORE MANAGER =====");
@@ -43,7 +45,7 @@ export async function runMainMenu(): Promise<void> {
         await loanController.run();
         break;
       case "5":
-        console.log("\nMódulo em construção.");
+        await reportController.run();
         break;
       case "0":
         console.log("\nEncerrando a aplicação. Até logo!");
