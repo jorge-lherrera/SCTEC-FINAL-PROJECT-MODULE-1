@@ -1,9 +1,11 @@
 import { ask } from "../utils/prompt";
 import { AuthorController } from "../controllers/AuthorController";
 import { BookController } from "../controllers/BookController";
+import { CustomerController } from "../controllers/CustomerController";
 
 const authorController = new AuthorController();
 const bookController = new BookController();
+const customerController = new CustomerController();
 
 function showMainMenu(): void {
   console.log("\n===== BOOKSTORE MANAGER =====");
@@ -33,6 +35,8 @@ export async function runMainMenu(): Promise<void> {
         await bookController.run();
         break;
       case "3":
+        await customerController.run();
+        break;
       case "4":
       case "5":
         console.log("\nMódulo em construção.");
