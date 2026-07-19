@@ -2,10 +2,12 @@ import { ask } from "../utils/prompt";
 import { AuthorController } from "../controllers/AuthorController";
 import { BookController } from "../controllers/BookController";
 import { CustomerController } from "../controllers/CustomerController";
+import { LoanController } from "../controllers/LoanController";
 
 const authorController = new AuthorController();
 const bookController = new BookController();
 const customerController = new CustomerController();
+const loanController = new LoanController();
 
 function showMainMenu(): void {
   console.log("\n===== BOOKSTORE MANAGER =====");
@@ -38,6 +40,8 @@ export async function runMainMenu(): Promise<void> {
         await customerController.run();
         break;
       case "4":
+        await loanController.run();
+        break;
       case "5":
         console.log("\nMódulo em construção.");
         break;
