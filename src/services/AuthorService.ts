@@ -2,7 +2,7 @@ import { AuthorRepository } from "../repositories/AuthorRepository";
 import { Author, AuthorInput } from "../models/Author";
 
 export class AuthorService {
-  private repository = new AuthorRepository();
+  constructor(private readonly repository: AuthorRepository = new AuthorRepository()) {}
 
   async create(input: AuthorInput): Promise<Author> {
     this.validateName(input.name);

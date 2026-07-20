@@ -2,7 +2,7 @@ import { ask } from "../utils/prompt";
 import { AuthorService } from "../services/AuthorService";
 
 export class AuthorController {
-  private service = new AuthorService();
+  constructor(private readonly service: AuthorService = new AuthorService()) {}
 
   async run(): Promise<void> {
     let running = true;

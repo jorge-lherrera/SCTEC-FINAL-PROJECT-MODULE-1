@@ -2,7 +2,7 @@ import { ask } from "../utils/prompt";
 import { ReportService } from "../services/ReportService";
 
 export class ReportController {
-  private service = new ReportService();
+  constructor(private readonly service: ReportService = new ReportService()) {}
 
   async run(): Promise<void> {
     let running = true;

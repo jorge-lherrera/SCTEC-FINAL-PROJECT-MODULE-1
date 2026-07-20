@@ -8,7 +8,7 @@ import {
 } from "../models/Report";
 
 export class ReportService {
-  private repository = new ReportRepository();
+  constructor(private readonly repository: ReportRepository = new ReportRepository()) {}
 
   availableBooks(): Promise<AvailableBookReport[]> {
     return this.repository.availableBooks();

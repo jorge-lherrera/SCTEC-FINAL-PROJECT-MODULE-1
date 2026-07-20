@@ -4,7 +4,7 @@ import { Customer, CustomerInput } from "../models/Customer";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export class CustomerService {
-  private repository = new CustomerRepository();
+  constructor(private readonly repository: CustomerRepository = new CustomerRepository()) {}
 
   async create(input: CustomerInput): Promise<Customer> {
     const normalized = this.validate(input);

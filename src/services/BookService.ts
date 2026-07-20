@@ -3,8 +3,10 @@ import { AuthorRepository } from "../repositories/AuthorRepository";
 import { Book, BookInput } from "../models/Book";
 
 export class BookService {
-  private repository = new BookRepository();
-  private authorRepository = new AuthorRepository();
+  constructor(
+    private readonly repository: BookRepository = new BookRepository(),
+    private readonly authorRepository: AuthorRepository = new AuthorRepository()
+  ) {}
 
   async create(input: BookInput): Promise<Book> {
     const normalized = await this.validate(input);

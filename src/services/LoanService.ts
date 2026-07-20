@@ -4,9 +4,11 @@ import { CustomerRepository } from "../repositories/CustomerRepository";
 import { Loan, LoanView } from "../models/Loan";
 
 export class LoanService {
-  private repository = new LoanRepository();
-  private bookRepository = new BookRepository();
-  private customerRepository = new CustomerRepository();
+  constructor(
+    private readonly repository: LoanRepository = new LoanRepository(),
+    private readonly bookRepository: BookRepository = new BookRepository(),
+    private readonly customerRepository: CustomerRepository = new CustomerRepository()
+  ) {}
 
   async register(bookId: number, customerId: number): Promise<Loan> {
     const book = await this.bookRepository.findById(bookId);
