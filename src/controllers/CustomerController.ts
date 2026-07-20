@@ -1,5 +1,6 @@
 import { ask } from "../utils/prompt";
 import { CustomerService } from "../services/CustomerService";
+import { parseId } from "../utils/validation";
 
 export class CustomerController {
   constructor(private readonly service: CustomerService = new CustomerService()) {}
@@ -76,7 +77,7 @@ export class CustomerController {
 
   private async findById(): Promise<void> {
     try {
-      const id = this.parseId(await ask("ID do cliente: "));
+      const id = parseId(await ask("ID do cliente: "));
       const customer = await this.service.findById(id);
       console.table([customer]);
     } catch (error) {
@@ -86,7 +87,7 @@ export class CustomerController {
 
   private async update(): Promise<void> {
     try {
-      const id = this.parseId(await ask("ID do cliente: "));
+      const id = parseId(await ask("ID do cliente: "));
       const current = await this.service.findById(id);
       const name = await ask(`Nome (${current.name}): `);
       const email = await ask(`E-mail (${current.email}): `);
@@ -104,19 +105,11 @@ export class CustomerController {
 
   private async remove(): Promise<void> {
     try {
-      const id = this.parseId(await ask("ID do cliente: "));
+      const id = parseId(await ask("ID do cliente: "));
       await this.service.remove(id);
       console.log("\nCliente removido com sucesso!");
     } catch (error) {
       console.log(`\n${(error as Error).message}`);
     }
-  }
-
-  private parseId(value: string): number {
-    const id = Number(value);
-    if (!Number.isInteger(id) || id <= 0) {
-      throw new Error("ID inválido.");
-    }
-    return id;
   }
 }

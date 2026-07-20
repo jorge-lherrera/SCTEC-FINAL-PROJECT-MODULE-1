@@ -1,5 +1,6 @@
 import { ask } from "../utils/prompt";
 import { LoanService } from "../services/LoanService";
+import { parseId } from "../utils/validation";
 
 export class LoanController {
   constructor(private readonly service: LoanService = new LoanService()) {}
@@ -43,8 +44,8 @@ export class LoanController {
 
   private async register(): Promise<void> {
     try {
-      const bookId = this.parseId(await ask("ID do livro: "));
-      const customerId = this.parseId(await ask("ID do cliente: "));
+      const bookId = parseId(await ask("ID do livro: "));
+      const customerId = parseId(await ask("ID do cliente: "));
       const loan = await this.service.register(bookId, customerId);
       console.log(`\nEmpréstimo registrado com sucesso! ID: ${loan.id}`);
     } catch (error) {
@@ -54,7 +55,7 @@ export class LoanController {
 
   private async registerReturn(): Promise<void> {
     try {
-      const loanId = this.parseId(await ask("ID do empréstimo: "));
+      const loanId = parseId(await ask("ID do empréstimo: "));
       const loan = await this.service.registerReturn(loanId);
       console.log(`\nDevolução registrada com sucesso! Empréstimo ID: ${loan.id}`);
     } catch (error) {
@@ -73,13 +74,5 @@ export class LoanController {
     } catch (error) {
       console.log(`\n${(error as Error).message}`);
     }
-  }
-
-  private parseId(value: string): number {
-    const id = Number(value);
-    if (!Number.isInteger(id) || id <= 0) {
-      throw new Error("ID inválido.");
-    }
-    return id;
   }
 }

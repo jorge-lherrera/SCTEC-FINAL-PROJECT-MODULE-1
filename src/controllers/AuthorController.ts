@@ -1,5 +1,6 @@
 import { ask } from "../utils/prompt";
 import { AuthorService } from "../services/AuthorService";
+import { parseId } from "../utils/validation";
 
 export class AuthorController {
   constructor(private readonly service: AuthorService = new AuthorService()) {}
@@ -76,7 +77,7 @@ export class AuthorController {
 
   private async findById(): Promise<void> {
     try {
-      const id = await this.askId();
+      const id = parseId(await ask("ID do autor: "));
       const author = await this.service.findById(id);
       console.table([author]);
     } catch (error) {
@@ -86,7 +87,7 @@ export class AuthorController {
 
   private async update(): Promise<void> {
     try {
-      const id = await this.askId();
+      const id = parseId(await ask("ID do autor: "));
       const current = await this.service.findById(id);
       const name = await ask(`Nome (${current.name}): `);
       const nationality = await ask(`Nacionalidade (${current.nationality ?? ""}): `);
@@ -104,20 +105,11 @@ export class AuthorController {
 
   private async remove(): Promise<void> {
     try {
-      const id = await this.askId();
+      const id = parseId(await ask("ID do autor: "));
       await this.service.remove(id);
       console.log("\nAutor removido com sucesso!");
     } catch (error) {
       console.log(`\n${(error as Error).message}`);
     }
-  }
-
-  private async askId(): Promise<number> {
-    const value = await ask("ID do autor: ");
-    const id = Number(value);
-    if (!Number.isInteger(id) || id <= 0) {
-      throw new Error("ID inválido.");
-    }
-    return id;
   }
 }

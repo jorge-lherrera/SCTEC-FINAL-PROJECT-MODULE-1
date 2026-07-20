@@ -1,5 +1,6 @@
 import { ask } from "../utils/prompt";
 import { BookService } from "../services/BookService";
+import { parseId } from "../utils/validation";
 
 export class BookController {
   constructor(private readonly service: BookService = new BookService()) {}
@@ -52,7 +53,7 @@ export class BookController {
   private async create(): Promise<void> {
     try {
       const title = await ask("Título: ");
-      const authorId = this.parseId(await ask("ID do autor: "), "ID do autor inválido.");
+      const authorId = parseId(await ask("ID do autor: "), "ID do autor inválido.");
       const publicationYear = this.parseOptionalYear(await ask("Ano de publicação (opcional): "));
       const totalQuantity = this.parseQuantity(await ask("Quantidade total: "));
       const book = await this.service.create({ title, authorId, publicationYear, totalQuantity });
@@ -77,7 +78,7 @@ export class BookController {
 
   private async findById(): Promise<void> {
     try {
-      const id = this.parseId(await ask("ID do livro: "), "ID inválido.");
+      const id = parseId(await ask("ID do livro: "), "ID inválido.");
       const book = await this.service.findById(id);
       console.table([book]);
     } catch (error) {
@@ -87,7 +88,7 @@ export class BookController {
 
   private async update(): Promise<void> {
     try {
-      const id = this.parseId(await ask("ID do livro: "), "ID inválido.");
+      const id = parseId(await ask("ID do livro: "), "ID inválido.");
       const current = await this.service.findById(id);
       const title = await ask(`Título (${current.title}): `);
       const authorIdInput = await ask(`ID do autor (${current.authorId}): `);
@@ -95,7 +96,7 @@ export class BookController {
       const quantityInput = await ask(`Quantidade total (${current.totalQuantity}): `);
       const book = await this.service.update(id, {
         title: title.trim() || current.title,
-        authorId: authorIdInput.trim() ? this.parseId(authorIdInput, "ID do autor inválido.") : current.authorId,
+        authorId: authorIdInput.trim() ? parseId(authorIdInput, "ID do autor inválido.") : current.authorId,
         publicationYear: yearInput.trim() ? this.parseOptionalYear(yearInput) : current.publicationYear,
         totalQuantity: quantityInput.trim() ? this.parseQuantity(quantityInput) : current.totalQuantity,
       });
@@ -107,20 +108,12 @@ export class BookController {
 
   private async remove(): Promise<void> {
     try {
-      const id = this.parseId(await ask("ID do livro: "), "ID inválido.");
+      const id = parseId(await ask("ID do livro: "), "ID inválido.");
       await this.service.remove(id);
       console.log("\nLivro removido com sucesso!");
     } catch (error) {
       console.log(`\n${(error as Error).message}`);
     }
-  }
-
-  private parseId(value: string, message: string): number {
-    const id = Number(value);
-    if (!Number.isInteger(id) || id <= 0) {
-      throw new Error(message);
-    }
-    return id;
   }
 
   private parseQuantity(value: string): number {
