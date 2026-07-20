@@ -96,6 +96,15 @@ Verificação de tipos (sem gerar arquivos):
 npm run typecheck
 ```
 
+## Scripts disponíveis
+
+| Script | Descrição |
+|---|---|
+| `npm run dev` | Executa a aplicação em desenvolvimento com `tsx`, sem compilar. |
+| `npm run build` | Compila o TypeScript para JavaScript na pasta `dist/`. |
+| `npm start` | Executa a versão já compilada (`dist/main.js`). |
+| `npm run typecheck` | Verifica os tipos sem gerar arquivos. |
+
 ## Arquitetura do projeto
 
 A aplicação segue uma arquitetura em camadas, com responsabilidades bem definidas. O fluxo de uma operação é:
@@ -113,7 +122,7 @@ Usuário -> Menu -> Controller -> Service -> Repository -> PostgreSQL
 | Repositories | Acesso ao PostgreSQL por meio de comandos SQL. |
 | Models | Interfaces e tipos que representam as entidades. |
 | Database | Configuração da conexão (pool) e script de criação do banco. |
-| Utils | Funções auxiliares reutilizáveis (leitura de entrada). |
+| Utils | Funções auxiliares reutilizáveis (leitura de entrada e validações). |
 
 O acesso ao banco utiliza sempre programação assíncrona (`async`/`await`) e tratamento de erros com `try/catch`. As operações de empréstimo e devolução são executadas em transações (`BEGIN`/`COMMIT`/`ROLLBACK`) para manter a consistência do estoque.
 
@@ -175,7 +184,8 @@ bookstore-manager-cli/
 │   │   ├── connection.ts
 │   │   └── schema.sql
 │   └── utils/
-│       └── prompt.ts
+│       ├── prompt.ts
+│       └── validation.ts
 ├── .env.example
 ├── .gitignore
 ├── package.json
